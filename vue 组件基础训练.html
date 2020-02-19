@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+
+        #app {
+            display: inline-block;
+            margin: 20px;
+            border: 1px solid #000;
+            padding: 20px;
+            padding-bottom: 0;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .course {
+            display: flex;
+            margin-right: 15px;
+        }
+
+        .img-box {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .course-img {
+            width: 140px;
+            margin-right: 20px;
+            vertical-align: bottom;
+        }
+
+        .course span {
+            box-sizing: border-box;
+            position: absolute;
+            bottom: 0;
+            display: block;
+            width: 100%;
+            line-height: 20px;
+            padding-left: 10px;
+            color: #fff;
+            font-size: 10px;
+            background-color: rgba(0, 0, 0, .6)
+        }
+
+        .play-back {
+            display: inline-block;
+            padding: 0 3px;
+            font-size: 12px;
+            border: 1px solid #73b5e7;
+            color: #73b5e7;
+
+        }
+
+        .price {
+            color: #e85308;
+
+        }
+
+        .free {
+            display: inline-block;
+            padding: 0 3px;
+            font-size: 12px;
+            color: #15e453;
+        }
+
+        .choose {
+            opacity: .3;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <course-list :list='myList' @price='getPrice' @click.native='onClick'></course-list>
+        
+        合计：{{price}}
+    </div>
+    <script>
+
+
+        let vm = new Vue({
+            el: '#app',
+            components: {
+                courseList: {
+                    props: ['list'],//将父组件的值传到子组件 且list是绑定的属性名
+
+                    data: function () { //组件所需要的数据 data以函数的形式且要return出去
+                        return {
+                            totalPriceArr: [],
+                            alreadyHasArr: [],
+                            totalPrice: 0,
+                            myCourseList:this.list.concat([])
+                        }
+                    },
+                    template: `<ul>
+             <li 
+             v-for='(item,index) in myCourseList'
+             :key='item.name'
+             @click='addTobuy(index,item.price)'
+             @contextmenu.prevent= 'removeFromBuy(index,item.price)'
+             :class="{course:true,choose:alreadyHasArr[index]}">
+                 <div class="img-box">
+                     <img class="course-img" :src="item.poster" alt="">
+                     <span v-if='item.enrollment'>{{item.enrollment}}人报名</span>
+                     <span v-if='item.buyNumber'>{{item.buyNumber}}人购买</span>
+                 </div>
+                <div class="content-box">
+                    <div class="title">
+                        {{item.name}}
+                    </div>
+                    <div class='free' v-if='item.free'>
+                        免费
+                    </div>
+                    <div class="play-back" v-if='item.playback'>
+                        回放
+                    </div>
+                    <div class="price" v-if='item.price'>
+                        ￥{{item.price}}
+                    </div>
+                </div>
+             </li>
+         </ul>`,
+                    methods: {
+                        addTobuy(index, price) {
+                            // if (this.alreadyHasArr[index]) {
+                            //     return
+                            // }
+                            // this.totalPriceArr.push(price);//将价格添加到数组
+                            // Vue.set(this.alreadyHasArr, index, true)//添加课程对象
+                            // this.totalPriceMTH();
+                            this.myCourseList.splice(index,1);
+
+                        },
+                        removeFromBuy(index, price) {
+                            if (!this.alreadyHasArr[index]) {
+                                return
+                            }
+                            const totalPriceIndex = this.totalPriceArr.findIndex(item => {
+                                return item == price
+                            })
+                            this.alreadyHasArr.splice(index, 1, false)  //改变样式
+                            this.totalPriceArr.splice(totalPriceIndex, 1)
+                            this.totalPriceMTH();
+                        },
+                        totalPriceMTH() { //获取总价格
+                            if (this.totalPriceArr.length === 0) {
+                                this.totalPrice = 0;
+                            } else {
+                                this.totalPrice = this.totalPriceArr.reduce((prev, cur) => {
+                                    return prev + cur
+                                });
+                            }
+                            this.$emit('price',this.totalPrice)
+                        }
+                    }
+                }
+            },
+            data: {
+                price:0,
+                myList: [
+                    {
+                        name: '佛寺金佛IE我好久佛我和威风威风礼物和违反',
+                        free: true,
+                        playback: true,
+                        enrollment: 2543,
+                        price: 0,
+                        poster: 'http://dmimg.5054399.com/allimg/pkm/pk/22.jpg'
+                    },
+                    {
+                        name: 'gsdfokgjlkfng违反',
+                        free: true,
+                        playback: false,
+                        buyNumber: 240,
+                        playback: true,
+                        price: 0,
+                        poster: 'http://b.hiphotos.baidu.com/exp/w=500/sign=c0a4969e942bd40742c7d3fd4b889e9c/728da9773912b31b79d1c59f8518367adbb4e1c3.jpg'
+                    }, {
+                        name: '拉丝粉结课呢卡菲纳反',
+                        free: true,
+                        playback: false,
+                        buyNumber: 2450,
+                        playback: true,
+                        price: 0,
+                        poster: 'http://00.minipic.eastday.com/20161222/20161222195407_66e9861db58f43ca5d9a53437a400105_3.jpeg'
+                    }, {
+                        name: 'l发生率都快疯了京东方和违反',
+                        free: true,
+                        playback: true,
+                        enrollment: 2543,
+                        price: 234,
+                        poster: 'http://g.hiphotos.baidu.com/zhidao/pic/item/ac6eddc451da81cb2f68749d5366d016082431d7.jpg'
+                    }, {
+                        name: '算法的范德萨反',
+                        playback: true,
+                        buyNumber: 2420,
+                        price: 234,
+                        price: 0,
+                        poster: 'http://a4.att.hudong.com/15/01/01300536185951138825011496928.jpg'
+                    }, {
+                        name: ' 分为非威风威风威风和违反',
+                        playback: true,
+                        enrollment: 453433,
+                        price: 24,
+                        poster: 'http://img4.cache.netease.com/photo/0001/2009-10-01/5KHL6EHM0UQ20001.JPG'
+                    }, {
+                        name: '法尔威风威风威风凤尾菇我会员价',
+                        free: true,
+                        playback: false,
+                        enrollment: 49293,
+                        price: 0,
+                        poster: 'http://file02.16sucai.com/d/file/2014/1006/e94e4f70870be76a018dff428306c5a3.jpg'
+                    }, {
+                        name: '离开我可以哦啦一体化工本费石头人狗头人刚问过 ',
+                        playback: true,
+                        price: 34,
+                        enrollment: 3354393,
+                        poster: 'http://a4.att.hudong.com/21/09/01200000026352136359091694357.jpg'
+                    }, {
+                        name: 'dsfasgyk8p78jtyhg 法发顺丰第三方',
+                        playback: false,
+                        price: 2324,
+                        enrollment: 345393,
+                        poster: 'http://h.hiphotos.baidu.com/zhidao/pic/item/314e251f95cad1c8486e03ae7f3e6709c83d5166.jpg'
+                    },
+                ]
+            },
+            methods: {
+                getPrice(price){
+                    this.price = price;
+                },
+                onClick(){
+                    console.log('3213213131')
+                }
+            },
+
+        })
+    </script>
+</body>
+
+</html>

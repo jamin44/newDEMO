@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app" :style="{ fontSize: postFontSize + 'em' }">
+       <blog-post :post='postlist' v-on:enlarge-text="postFontSize += 0.1"></blog-post>
+    </div>
+    <script>
+    //全局组件//////////////////////////////////////////////
+        Vue.component('blog-post', {
+            props: ['post'],
+            template: `
+    <div class="blog-post">
+      <h3>{{ post.title }}</h3>
+      <button v-on:click="bigFont">
+        Enlarge text
+      </button>
+      <div v-html="post.content"></div>
+    </div>
+  `,
+  methods:{
+      bigFont (){
+        this.$emit('enlarge-text');
+      }
+  }
+        })
+//////////////////////////////////////////////////////////////////
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                postFontSize: 1,
+                postlist:{
+                    title:'我是标题',
+                    content:'我是内容'
+                }
+            },
+
+            methods: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>

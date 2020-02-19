@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        * {
+            list-style-type: lower-alpha;
+        }
+
+        span {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <input type="text" v-model.trim='inputValue' @keyup.enter='add'>
+            <button @click='add'>提交</button>
+            <span v-if=''> {{tips}} </span>
+            <ul>
+                <li v-for='(item,index) in showList' :key='item'>
+                    {{item}}
+                    <button @click='completeTask(index)'>完成</button>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <h4>已完成的任务</h4>
+            <ul>
+                <li v-for='item in completeList' :key='item'>
+                    {{item}}
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                tips: '',
+                inputValue: '',
+                showList: [],
+                completeList: [],
+            },
+            methods: {
+                add: function () {
+                    if (this.inputValue == '') {
+                        this.tips = '输入不能为空'
+                    } else if (this.showList.includes(this.inputValue)) {
+                        this.tips = '不能重复输入'
+                    } else {
+                        this.showList.push(this.inputValue);
+                        this.inputValue = '';
+                    }
+
+                }, 
+                completeTask: function (index) {
+                    if (this.completeList.includes(this.showList[index])){
+                        return
+                    }else{
+                        // this.completeList.push(this.showList[index]);
+                        let newshowList = this.showList.splice(index,1)
+                        this.completeList.push(...newshowList)
+                    }
+                       
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

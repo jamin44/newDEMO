@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+    p{
+        width:100px;
+        line-height:100px;
+        text-align:center;
+        color:#fff;
+        background: red;
+    }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click='change'>显示/隐藏</button>
+        <p v-if='show'>民民</p>
+
+        <button @click='display'>切换</button>
+        <div v-if='showList'>
+            <span>用户名</span>
+            <input type="text" key='username'>
+        </div>
+        <div v-else>
+            <span>密码</span>
+            <input type="text"key='password'>
+        </div>
+    </div>
+    <script>
+    let vm = new Vue({
+        el:'#app',
+        data : {
+            show:true,
+            showList:true,
+        },
+        methods:{
+            change(){
+                this.show = !this.show
+            },
+            display(){
+                this.showList = !this.showList
+            }
+        }
+    })
+    </script>
+</body>
+</html>

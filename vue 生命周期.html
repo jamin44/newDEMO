@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+      {{msg}}
+      <button @click='change'>change</button>
+    </div>
+    <script>
+        let vm = new Vue({
+            el: '#app',
+            data: {
+               msg:'hello'
+            },
+            methods: {
+                a(){
+                    console.log('aaaa')
+                },
+                change(){
+                    this.msg = 'goodnight'
+                }
+            },
+            beforeCreate(){  //生命周期的最开始 data methods 都还没被读取 初始化
+                console.log('-------------------beforeCreate---------------');
+                console.log(this.msg);
+                // this.a();
+                alert('beforeCreate')
+            },
+            created(){  // data methods 已被读取 初始化完毕
+                console.log('-------------------Created--------------------');
+                console.log(this.msg);
+                this.a();
+                alert('Created')
+            },
+            beforeMount(){ //挂载是一个替换虚拟dom 的过程
+                console.log('-------------------beforeMount---------------');
+                alert('beforeMount');
+            },
+            mounted(){  //当挂载完成以后才显示dom
+                console.log('-------------------Mounted--------------------');
+                alert('Mounted');
+            },
+            beforeUpdate(){ //检测到数据改变前 更新数据  
+                console.log('-------------------beforeUpdate---------------');
+                alert('beforeUpdate');
+            },
+            updated(){  //更新数据后 重新渲染虚拟dom
+                console.log('-------------------updated--------------------');
+                alert('updated');
+            },
+            beforeDestroy(){  // 执行vm.$destroy() 后 vue实例被销毁前
+                console.log('-------------------beforeDestroy---------------');
+                alert('beforeDestroy');
+            },
+            destroyed(){   //vue实例被销毁
+                console.log('-------------------destroyed--------------------');
+                alert('destroyed');
+            },
+        })
+    </script>
+</body>
+
+</html>

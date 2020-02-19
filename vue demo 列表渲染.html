@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        span{
+            border: 1px solid red;
+            color: red;
+            padding: 2px;
+            font-size: 12px
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+       <ul>
+           <li v-for='item in newsList' :key='item.id'> 
+            {{item.title}}
+            <span v-if='item.new'>新</span>
+           </li>
+       </ul>
+    </div>
+    <script>
+    let vm = new Vue({
+        el:'#app',
+        data : {
+           newsList:[
+               {
+                   title:'返回上登录覅及了深刻的积分',
+                   new:true,
+                   id:0
+               },
+               {
+                   title:'就发士大夫士大夫士大夫 ',
+                   new:false,
+                   id:1
+               },
+               {
+                   title:'KIKIUK就哭',
+                   new:false,
+                   id:2
+               },
+               {
+                   title:'哦IQ就哦ifhow电话费',
+                   new:false,
+                   id:3
+               },
+               {
+                   title:'公婆突然开关机拼接',
+                   new:true,
+                   id:4
+               },
+               {
+                   title:'阿萨德可能他人看了么楼梯口没骗我',
+                   new:false,
+                   id:5
+               },
+               {
+                   title:'米克斯那都管好',
+                   new:false,
+                   id:6
+               },
+           ]
+        },
+        methods:{
+           
+        }
+    })
+    </script>
+</body>
+</html>

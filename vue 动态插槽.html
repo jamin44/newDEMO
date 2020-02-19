@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app" >
+     <button @click='changeShow'>切换</button>
+     
+     <!-- <component :is='type'></component> -->
+     <cmp-one><span slot="before">hahah</span></cmp-one>
+     <cmp-two :list='dataList'>
+         <template slot-scope='list'>
+            <li>{{list.item}} - {{list.index}}</li>
+         </template>
+     </cmp-two>
+     <cmp-two :list='dataList'>
+            <template slot-scope='list'>
+                    <li>{{list.index}} - {{list.item}}</li>
+                 </template>
+     </cmp-two>
+    </div>
+    <script>
+        let cmpOne = {
+            template:`<div>组件1:
+                        <input type='value'>
+                        <slot name='before'></slot>
+                      </div>`
+        }
+        let cmpTwo = {
+            props:['list'],
+            template:`<div>组件2:<input type='value'>
+                        <ul>
+                           <slot 
+                              v-for='(item ,index) in list'
+                              :key = 'item'
+                              :item='item'
+                              :index='index'>
+                              {{ item }}
+                           </slot>
+                        </ul>
+                      </div>`
+        }
+        let vm = new Vue({
+            el: '#app',
+            components:{
+                cmpOne,
+                cmpTwo
+            },
+            data: {
+              showOne:true,
+              type:'cmp-one',
+              dataList:[1,2,3,4,5]
+            },
+            methods: {
+                changeShow(){
+                    this.type = this.type =='cmp-one'?'cmp-two':'cmp-one'
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    ul li span{
+        display: inline-block;
+        width: 100px;
+        line-height:50px;
+        text-align: center;
+    }
+    #button{
+        width: 100px;
+        line-height: 40px;
+        background-color:#bbda2f;
+        color: #fff;
+        outline:none;
+
+    }
+</style>
+
+<body>
+    <ul id="container"></ul>
+    <button id="button">更改职业</button>
+    <script src="jquery-1.11.3/jquery.min.js"></script>
+    <script>
+        let $container = $('#container');
+        let $button = $('#button');
+        let datalist = [
+            {
+                name:'sha312n',
+                age:2243,
+                profession:'讲师'
+            },
+            {
+                name:'shacxvn',
+                age:42,
+                profession:'牙膏'
+            },
+            {
+                name:'vdfvdfdrashan',
+                age:6572,
+                profession:'拖地'
+            },
+            {
+                name:'SDAsddasahan',
+                age:879800-2,
+                profession:'扫地'
+            },
+        ]
+        function getlist(datalist){
+            let liStr ='';
+            datalist.forEach(element => {
+                liStr +=`<li>
+                <span>${element.name}<span>
+                <span>${element.age}<span>
+                <span>${element.profession}<span>
+                </li>`
+            })
+            $container.html(liStr);
+        }
+        getlist(datalist);
+        $button.on('click',()=>{
+            datalist[0].profession = '改变';
+            datalist[1].profession = '改变';
+            datalist[2].profession = '改变';
+            datalist[3].profession = '改变';
+            getlist(datalist);
+        })
+    </script>
+</body>
+
+</html>
