@@ -11,7 +11,7 @@
 
 <body>
     <div id="app" :style="{ fontSize: postFontSize + 'em' }">
-       <blog-post :post='postlist' v-on:enlarge-text="postFontSize += 0.1"></blog-post>
+       <blog-post :post='postlist' v-on:enlarge-text="postFontSize += $event"></blog-post>
     </div>
     <script>
     //全局组件//////////////////////////////////////////////
@@ -28,7 +28,7 @@
   `,
   methods:{
       bigFont (){
-        this.$emit('enlarge-text');
+        this.$emit('enlarge-text',0.5);
       }
   }
         })

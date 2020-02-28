@@ -11,7 +11,7 @@
     <div id="app" >
      <button @click='changeShow'>切换</button>
      
-     <!-- <component :is='type'></component> -->
+     <component :is='type'></component>
      <cmp-one><span slot="before">hahah</span></cmp-one>
      <cmp-two :list='dataList'>
          <template slot-scope='list'>

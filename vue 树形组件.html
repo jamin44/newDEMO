@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+
+    .tree-li {
+        font-size: 14px;
+        margin-left: 30px;
+        cursor: pointer;
+    }
+
+    .scope::before {
+        display: inline-block;
+        content: '\e65a';
+        font-family: 'iconfont';
+    }
+</style>
+
+<body>
+    <div id="app">
+        <tree :pagedata='treeData'></tree>
+    </div>
+    <script>
+        let treeData = [
+            {
+                name: '一级1-1',
+                children: [
+                    {
+                        name: '二级1-2',
+                        children: [
+                            {
+                                name: '三级1-3',
+                                children: [
+                                    {
+                                        name: '四级1-4',
+                                        children: [
+                                            {
+
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: '一级2-1',
+                children: [
+                    {
+                        name: '二级2-2',
+                        children: [
+                            {
+                                name: '三级2-3',
+                                children: [
+                                    {
+                                        name: '四级2-4',
+                                        children: [
+                                            {
+
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: '一级3-1',
+                children: [
+                    {
+                        name: '二级3-2',
+                        children: [
+                            {
+                                name: '三级3-3',
+                                children: [
+                                    {
+                                        name: '四级3-4',
+                                        children: [
+                                            {
+
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+        ]
+        Vue.component('tree', {
+            props: ['pagedata'],
+            template: `<ul>
+            <li v-for='(item , index) in pagedata' 
+            class='tree-li' 
+            :class="{
+                'scope': item.children
+            }">
+                  <span @click='handleClick(index)'>{{item.name}}</span>
+                        <tree 
+                        :pagedata="item.children"
+                        v-if='showChildren[index]'>
+                        </tree>
+            </li>
+        </ul>`,
+            data() {
+                return {
+                    showChildren: []
+                }
+            },
+            methods: {
+                handleClick(index) {
+                    let show = !this.showChildren[index];
+                    this.showChildren.splice(index,1,show)
+                }
+            },
+
+        })
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                treeData
+            },
+            methods: {
+                handleClick() {
+
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
